@@ -18,3 +18,4 @@ Thumbs.db
 # Environment Variables (Security)
 .env
 .env.production
+node_modules_backup/
