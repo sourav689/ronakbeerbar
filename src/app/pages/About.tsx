@@ -65,23 +65,26 @@ export function About() {
 
   // --- Instagram Deep Link Logic ---
   const handleInstagramRedirect = () => {
-    const instagramId = 'ronakbeerbar';
+  const instagramId = 'ronakbeerbar';
+  const webUrl = `https://www.instagram.com/${instagramId}`;
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
     const appUrl = `instagram://user?username=${instagramId}`;
-    const webUrl = `https://www.instagram.com/${instagramId}`;
-
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      // Try to open the app
+    
+    // Open web URL in new tab first (as fallback)
+    const newTab = window.open(webUrl, '_blank');
+    
+    // Then try to open the app
+    setTimeout(() => {
       window.location.href = appUrl;
-      // Fallback to web if app is not installed
-      setTimeout(() => {
-        window.open(webUrl, '_blank');
-      }, 500);
-    } else {
-      window.open(webUrl, '_blank');
-    }
-  };
+    }, 100);
+    
+  } else {
+    window.open(webUrl, '_blank');
+  }
+};
 
   const handleSubmit = () => {
     if (!formData.name || !formData.email || !formData.phone || !formData.message) {
