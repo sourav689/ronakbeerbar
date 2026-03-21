@@ -63,8 +63,17 @@ export function About() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+      alert(
+        language === 'mr'
+          ? 'कृपया सर्व माहिती भरा'
+          : language === 'hi'
+          ? 'कृपया सभी जानकारी भरें'
+          : 'Please fill in all fields'
+      );
+      return;
+    }
     alert(`Query submitted: ${formData.name}`);
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
@@ -221,7 +230,7 @@ export function About() {
           <div className="backdrop-blur-[25px] border border-[var(--glass-border)] bg-[var(--glass-bg)] rounded-3xl p-8 md:p-12 relative overflow-hidden">
             {/* Decorative gradient overlay */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#D4AF37]/20 to-transparent rounded-full blur-3xl -mr-32 -mt-32" />
-            
+
             <div className="relative">
               <h2 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-[#B8860B] via-[#FCEABB] to-[#D4AF37] bg-clip-text text-transparent mb-4">
                 {language === 'mr' && 'आमच्याशी संपर्क साधा'}
@@ -234,7 +243,8 @@ export function About() {
                 {language === 'en' && 'Send us your questions or queries'}
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              {/* ✅ Replaced <form> with <div> — fixes mobile page-jump / navigation issues */}
+              <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-[#D4AF37] font-semibold mb-2">
@@ -246,7 +256,6 @@ export function About() {
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
                       className="w-full px-4 py-3 rounded-xl bg-[#0A0A0A]/50 border border-[#D4AF37]/30 text-[#F5F5DC] focus:border-[#D4AF37] focus:outline-none transition-all"
                       placeholder={language === 'mr' ? 'तुमचं नाव' : language === 'hi' ? 'आपका नाम' : 'Your name'}
                     />
@@ -262,7 +271,6 @@ export function About() {
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      required
                       className="w-full px-4 py-3 rounded-xl bg-[#0A0A0A]/50 border border-[#D4AF37]/30 text-[#F5F5DC] focus:border-[#D4AF37] focus:outline-none transition-all"
                       placeholder={language === 'mr' ? 'तुमचा फोन नंबर' : language === 'hi' ? 'आपका फोन नंबर' : 'Your phone number'}
                     />
@@ -279,7 +287,6 @@ export function About() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
                     className="w-full px-4 py-3 rounded-xl bg-[#0A0A0A]/50 border border-[#D4AF37]/30 text-[#F5F5DC] focus:border-[#D4AF37] focus:outline-none transition-all"
                     placeholder={language === 'mr' ? 'तुमचा ईमेल' : language === 'hi' ? 'आपका ईमेल' : 'Your email'}
                   />
@@ -294,7 +301,6 @@ export function About() {
                   <textarea
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
                     rows={5}
                     className="w-full px-4 py-3 rounded-xl bg-[#0A0A0A]/50 border border-[#D4AF37]/30 text-[#F5F5DC] focus:border-[#D4AF37] focus:outline-none transition-all resize-none"
                     placeholder={language === 'mr' ? 'तुमचा संदेश इथे लिहा...' : language === 'hi' ? 'अपना संदेश यहां लिखें...' : 'Write your message here...'}
@@ -302,7 +308,8 @@ export function About() {
                 </div>
 
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleSubmit}
                   className="w-full py-4 rounded-xl bg-gradient-to-r from-[#B8860B] via-[#FCEABB] to-[#D4AF37] text-[#0A0A0A] font-bold text-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
                   <span>
@@ -312,7 +319,7 @@ export function About() {
                   </span>
                   <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-              </form>
+              </div>
             </div>
           </div>
         </motion.div>
