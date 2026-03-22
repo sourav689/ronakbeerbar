@@ -218,37 +218,39 @@ export const Footer: React.FC = () => {
 
             {/* Social Media */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <h4 className="text-xl font-bold text-[#D4AF37] mb-4">{t('followUs')}</h4>
-              <div className="flex gap-4">
-                {socialLinks.map((social) => (
-                  
-                    key={social.label}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full border-2 border-[#D4AF37]/30 flex items-center justify-center hover:border-[#D4AF37] transition-all duration-300 group"
-                    aria-label={social.label}
-                  >
-                    <social.icon
-                      className="w-5 h-5 group-hover:scale-110 transition-all"
-                      style={{ color: social.color }}
-                    />
-                  </a>
-                ))}
-              </div>
-              <div className="mt-6 p-4 rounded-2xl backdrop-blur-[25px] border border-[var(--glass-border)] bg-[var(--glass-bg)]">
-                <p className="text-[#F5F5DC]/70 text-xs leading-relaxed py-1">
-                  {language === 'mr' && 'आमच्या लेटेस्ट ऑफर्स आणि इव्हेंट्स साठी आम्हाला फॉलो करा'}
-                  {language === 'hi' && 'हमारे नवीनतम ऑफर और इवेंट के लिए हमें फॉलो करें'}
-                  {language === 'en' && 'Follow us for latest offers and events'}
-                </p>
-              </div>
-            </motion.div>
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ delay: 0.3 }}
+>
+  <h4 className="text-xl font-bold text-[#D4AF37] mb-4">{t('followUs')}</h4>
+  
+  <div className="flex gap-4">
+    {socialLinks.map((social) => (
+      <a
+        key={social.label}
+        href={social.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-12 h-12 rounded-full border-2 border-[#D4AF37]/30 flex items-center justify-center hover:border-[#D4AF37] transition-all duration-300 group"
+        aria-label={social.label}
+      >
+        <social.icon
+          className="w-5 h-5 group-hover:scale-110 transition-all"
+          style={{ color: social.color }}
+        />
+      </a>
+    ))}
+  </div>
+
+  <div className="mt-6 p-4 rounded-2xl backdrop-blur-[25px] border border-[var(--glass-border)] bg-[var(--glass-bg)]">
+    <p className="text-[#F5F5DC]/70 text-xs leading-relaxed py-1">
+      {language === 'mr' && 'आमच्या लेटेस्ट ऑफर्स आणि इव्हेंट्स साठी आम्हाला फॉलो करा'}
+      {language === 'hi' && 'हमारे नवीनतम ऑफर और इवेंट के लिए हमें फॉलो करें'}
+      {language === 'en' && 'Follow us for latest offers and events'}
+    </p>
+  </div>
+</motion.div>
 
           </div>
 
