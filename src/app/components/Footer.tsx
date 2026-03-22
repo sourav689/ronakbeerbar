@@ -33,7 +33,7 @@ export const Footer: React.FC = () => {
   const socialLinks = [
     {
       icon: Instagram,
-      url: 'https://instagram.com/ronak_bar_320',
+      url: 'https://instagram.com/ronakbeerbar',
       label: 'Instagram',
       color: '#E4405F'
     },
