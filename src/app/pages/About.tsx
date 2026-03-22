@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import { Star, ChevronLeft, ChevronRight, Send, Instagram } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight, Send } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
 export function About() {
@@ -63,35 +63,20 @@ export function About() {
     }
   };
 
-  // --- Instagram Deep Link Logic ---
-  const handleInstagramRedirect = () => {
-  const instagramId = 'ronakbeerbar';
-  const webUrl = `https://www.instagram.com/${instagramId}`;
-
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    const appUrl = `instagram://user?username=${instagramId}`;
-    
-    // Open web URL in new tab first (as fallback)
-    const newTab = window.open(webUrl, '_blank');
-    
-    // Then try to open the app
-    setTimeout(() => {
-      window.location.href = appUrl;
-    }, 100);
-    
-  } else {
-    window.open(webUrl, '_blank');
-  }
-};
-
   const handleSubmit = () => {
     if (!formData.name || !formData.email || !formData.phone || !formData.message) {
       alert(language === 'mr' ? 'कृपया सर्व माहिती भरा' : language === 'hi' ? 'कृपया सभी जानकारी भरें' : 'Please fill in all fields');
       return;
     }
-    alert(`Query submitted: ${formData.name}`);
+
+    const subject = encodeURIComponent(`New Query from ${formData.name}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
+    );
+    const mailtoLink = `mailto:ronakjaisawl@gmail.com?subject=${subject}&body=${body}`;
+
+    window.location.href = mailtoLink;
+
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
 
@@ -120,16 +105,7 @@ export function About() {
               <h3 className="text-3xl font-bold text-[#D4AF37] mb-4">
                 {language === 'mr' ? 'आमचे ध्येय' : language === 'hi' ? 'हमारा मिशन' : 'Our Mission'}
               </h3>
-              <p className="text-[#F5F5DC]/90 text-lg leading-relaxed mb-8">{content.mission[language]}</p>
-
-              {/* Added Instagram Follow Button */}
-              <button 
-                onClick={handleInstagramRedirect}
-                className="flex items-center gap-2 px-6 py-3 rounded-full border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0A0A0A] transition-all duration-300 group"
-              >
-                <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span>Follow @ronakbeerbar</span>
-              </button>
+              <p className="text-[#F5F5DC]/90 text-lg leading-relaxed">{content.mission[language]}</p>
             </div>
           </motion.div>
 
@@ -161,10 +137,7 @@ export function About() {
                     ))}
                   </div>
                   <p className="text-[#F5F5DC] text-lg leading-relaxed mb-4 italic">"{reviews[currentReview].comment[language]}"</p>
-                  <p 
-                    onClick={handleInstagramRedirect}
-                    className="text-[#D4AF37] font-bold text-xl cursor-pointer hover:underline inline-flex items-center gap-2"
-                  >
+                  <p className="text-[#D4AF37] font-bold text-xl">
                     {reviews[currentReview].name[language]}
                   </p>
                 </div>
@@ -221,7 +194,7 @@ export function About() {
                   className="w-full px-4 py-3 rounded-xl bg-[#0A0A0A]/50 border border-[#D4AF37]/30 text-[#F5F5DC] focus:border-[#D4AF37] focus:outline-none resize-none"
                 />
                 <button onClick={handleSubmit} className="w-full py-4 rounded-xl bg-gradient-to-r from-[#B8860B] to-[#D4AF37] text-[#0A0A0A] font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-lg">
-                  <span>{language === 'mr' ? 'संदेश पाठवा' : 'Send Message'}</span>
+                  <span>{language === 'mr' ? 'संदेश पाठवा' : language === 'hi' ? 'संदेश भेजें' : 'Send Message'}</span>
                   <Send className="w-5 h-5" />
                 </button>
               </div>
